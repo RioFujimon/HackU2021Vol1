@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -54,6 +55,12 @@ class _MyHomePageState extends State<MyHomePage> {
     '鋼の錬金術師',
   ];
 
+  Future<String> getImageFromCamera() async {
+    final imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
+    return pickedFile!.path;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -67,8 +74,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           actions: [
             IconButton(
-              onPressed: () {
+              onPressed: () async {
                 print('漫画の追加');
+                var imagePathFromCamera = await getImageFromCamera();
+                print("imagePathFromCamera：" + imagePathFromCamera);
               },
               icon: Icon(
                 Icons.add_circle_outline_outlined,
@@ -120,8 +129,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 SizedBox(
-                  height: 150,
-                  width: 150,
+                  height: 140,
+                  width: 140,
                   child: Image(
                     image: AssetImage('images/' + imagesPath[index]),
                   ),

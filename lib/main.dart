@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:hacku2021_vol1/Screens/register_book_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -78,6 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 print('漫画の追加');
                 var imagePathFromCamera = await getImageFromCamera();
                 print("imagePathFromCamera：" + imagePathFromCamera);
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RegisterBookScreen(
+                      imagePathFromCamera: imagePathFromCamera,
+                    ),
+                  ),
+                );
               },
               icon: Icon(
                 Icons.add_circle_outline_outlined,

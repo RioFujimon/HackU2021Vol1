@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hacku2021_vol1/Screens/book_details_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hacku2021_vol1/Screens/register_book_screen.dart';
 
@@ -54,6 +55,19 @@ class _MyHomePageState extends State<MyHomePage> {
     'HUNTER HUNTER',
     'ドラゴンボール',
     '鋼の錬金術師',
+  ];
+
+  List<String> authors = [
+    '芥見下々',
+    '尾田栄一郎',
+    '吾峠呼世晴',
+    '岸本 斉史',
+    '春場ねぎ',
+    '和久井健',
+    '久保 帯人',
+    '冨樫 義博',
+    '鳥山 明',
+    '荒川弘',
   ];
 
   Future<String> getImageFromCamera() async {
@@ -151,6 +165,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       onTap: () {
         print(titles[index] + 'を選択');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookDetailsScreen(
+              bookTitle: titles[index],
+              imagePath: 'images/' + imagesPath[index],
+              author: authors[index],
+              latestIssue: '16',
+              bookPrice: '500',
+            ),
+          ),
+        );
       },
     );
   }

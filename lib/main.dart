@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:hacku2021_vol1/Screens/book_details_screen.dart';
+import 'package:hacku2021_vol1/data/dummy_author_data.dart';
+import 'package:hacku2021_vol1/data/dummy_image_path_data.dart';
+import 'package:hacku2021_vol1/data/dummy_title_data.dart';
+import 'package:hacku2021_vol1/data/dummy_two_dim_author_data.dart';
+import 'package:hacku2021_vol1/data/dummy_two_dim_image_data.dart';
+import 'package:hacku2021_vol1/data/dummy_two_dim_title_data.dart';
+import 'package:hacku2021_vol1/widgets/horizontal_list_view.dart';
+import 'screens/register_book_screen.dart';
+import 'widgets/yellow_dot_index_bar.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:hacku2021_vol1/Screens/register_book_screen.dart';
+import 'data/kana_and_alpha_data.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,9 +22,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.grey,
       ),
-      home: MyHomePage(title: 'MyPage'),
+      home: MyHomePage(title: 'マイページ！'),
     );
   }
 }
@@ -31,44 +39,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> imagesPath = [
-    'Crunchyroll.jpg',
-    'OnePiece.jpg',
-    'DemonSlayer.jpg',
-    'Naruto.jpeg',
-    'Quintessential.jpeg',
-    'TokyoRevengers.jpg',
-    'Bleach.jpeg',
-    'HunterHunter.jpeg',
-    'DragonBall.jpeg',
-    'FullMetalAlchemist.jpeg',
-  ];
+  List<String> imagesPath = DummyImagePathData().getImagesPath();
+  List<String> titles = DummyTitleData().getDummyTitles();
+  List<String> authors = DummyAuthorData().getAuthorsData();
+  List<String> kanaAndAlphaList = KadaAndAlphaListData().getKanaAndAlphaData();
 
-  List<String> titles = [
-    '呪術回戦',
-    'ONE PIECE',
-    '鬼滅の刃',
-    'ナルト',
-    '五等分の花嫁',
-    '東京リベンジャーズ',
-    'BLEACH',
-    'HUNTER HUNTER',
-    'ドラゴンボール',
-    '鋼の錬金術師',
-  ];
-
-  List<String> authors = [
-    '芥見下々',
-    '尾田栄一郎',
-    '吾峠呼世晴',
-    '岸本 斉史',
-    '春場ねぎ',
-    '和久井健',
-    '久保 帯人',
-    '冨樫 義博',
-    '鳥山 明',
-    '荒川弘',
-  ];
+  final TextEditingController _searchController = new TextEditingController();
 
   Future<String> getImageFromCamera() async {
     final imagePicker = ImagePicker();
@@ -81,14 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white70,
           title: Text(
             widget.title,
             style: TextStyle(
+              fontSize: 30,
               fontWeight: FontWeight.bold,
+              color: Colors.red,
             ),
           ),
           actions: [
             IconButton(
+              color: Colors.blue,
               onPressed: () async {
                 print('漫画の追加');
                 var imagePathFromCamera = await getImageFromCamera();
@@ -112,15 +92,69 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
           child: Padding(
             padding: EdgeInsets.all(8),
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              scrollDirection: Axis.vertical,
-              children: List<Widget>.generate(
-                titles.length,
-                generator,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  '漫画一覧',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    backgroundColor: Colors.white70,
+                  ),
+                ),
+                TextField(
+                  controller: _searchController,
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey.shade900,
+                    ),
+                    hintText: '検索',
+                  ),
+                  onEditingComplete: () {
+                    print(_searchController.text);
+                  },
+                ),
+                Flexible(
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        child: Column(
+                          children: [
+                            YellowDotIndexBar(
+                              titleOfIndex: kanaAndAlphaList[index],
+                            ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: HorizontalListView(
+                                index: index,
+                                twoDimTitleList:
+                                    DummyTwoDimTitleData().getTwoDimTitleList(),
+                                twoDimAuthorList: DummyTwoDimAuthorData()
+                                    .getTwoDimAuthorList(),
+                                twoDimImageList:
+                                    DummyTwoDimImageData().getTwoDimImageList(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    itemCount: kanaAndAlphaList.length,
+                  ),
+                ),
+                // GridView.count(
+                //   crossAxisCount: 2,
+                //   crossAxisSpacing: 10,
+                //   mainAxisSpacing: 10,
+                //   scrollDirection: Axis.vertical,
+                //   children: List<Widget>.generate(
+                //     titles.length,
+                //     generator,
+                //   ),
+                // ),
+              ],
             ),
           ),
         ),
@@ -128,56 +162,56 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget generator(int index) {
-    return GestureDetector(
-      child: GridTile(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: Colors.black,
-              width: 1,
-            ),
-          ),
-          child: Center(
-            child: Column(
-              children: [
-                Text(
-                  titles[index],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 140,
-                  width: 140,
-                  child: Image(
-                    image: AssetImage('images/' + imagesPath[index]),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-      onTap: () {
-        print(titles[index] + 'を選択');
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BookDetailsScreen(
-              bookTitle: titles[index],
-              imagePath: 'images/' + imagesPath[index],
-              author: authors[index],
-              latestIssue: '16',
-              bookPrice: '500',
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // Widget generator(int index) {
+  //   return GestureDetector(
+  //     child: GridTile(
+  //       child: Container(
+  //         decoration: BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.circular(10),
+  //           border: Border.all(
+  //             color: Colors.black,
+  //             width: 1,
+  //           ),
+  //         ),
+  //         child: Center(
+  //           child: Column(
+  //             children: [
+  //               Text(
+  //                 titles[index],
+  //                 textAlign: TextAlign.center,
+  //                 style: TextStyle(
+  //                   fontSize: 18,
+  //                   fontWeight: FontWeight.bold,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 140,
+  //                 width: 140,
+  //                 child: Image(
+  //                   image: AssetImage('images/' + imagesPath[index]),
+  //                 ),
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //     onTap: () {
+  //       print(titles[index] + 'を選択');
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => BookDetailsScreen(
+  //             bookTitle: titles[index],
+  //             imagePath: 'images/' + this.imagesPath[index],
+  //             author: authors[index],
+  //             latestIssue: '16',
+  //             bookPrice: '500',
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }

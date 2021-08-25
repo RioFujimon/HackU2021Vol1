@@ -42,15 +42,12 @@ class _HorizontalListViewState extends State<HorizontalListView> {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-      child: Row(
-        children: displayHorizontalListView(
-          widget.index,
-          widget.twoDimTitleList,
-          widget.twoDimAuthorList,
-          widget.twoDimImageList,
-        ),
+    return Row(
+      children: displayHorizontalListView(
+        widget.index,
+        widget.twoDimTitleList,
+        widget.twoDimAuthorList,
+        widget.twoDimImageList,
       ),
     );
   }

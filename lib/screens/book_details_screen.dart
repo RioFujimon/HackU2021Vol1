@@ -85,10 +85,6 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                           image: AssetImage(widget.imagePath),
                         ),
                       ),
-                      BackdropFilter(
-                        child: Container(),
-                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                      ),
                     ],
                   ),
                 ),

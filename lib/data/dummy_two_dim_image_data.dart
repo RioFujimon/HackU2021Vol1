@@ -1,11 +1,15 @@
 class DummyTwoDimImageData {
   final List<List<String>> _dimenList = [
     [], //あ行
-    ["DemonSlayer.jpg", "Quintessential.jpeg"], //か行
-    ["Crunchyroll.jpg"], //さ行
-    ["TokyoRevengers.jpg", "DragonBall.jpeg"], //た行
-    ["Naruto.jpeg"], //な行
-    ["FullMetalAlchemist.jpeg", "HunterHunter.jpeg", "Bleach.jpeg"], // は行
+    ["DemonSlayer_blur.jpg", "Quintessential_blur.jpeg"], //か行
+    ["Crunchyroll_blur.jpg"], //さ行
+    ["TokyoRevengers_blur.jpg", "DragonBall_blur.jpeg"], //た行
+    ["Naruto_blur.jpeg"], //な行
+    [
+      "FullMetalAlchemist_blur.jpeg",
+      "HunterHunter_blur.jpeg",
+      "Bleach_blur.jpeg"
+    ], // は行
     [], //ま行
     [], //や行
     [], //ら行
@@ -24,7 +28,7 @@ class DummyTwoDimImageData {
     [], //L行
     [], //M行
     [], //N行
-    ["OnePiece.jpg"], //O行
+    ["OnePiece_blur.jpg"], //O行
     [], //P行
     [], //Q行
     [], //R行

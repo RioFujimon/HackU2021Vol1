@@ -18,9 +18,9 @@ class YellowDotIndexBar extends StatelessWidget {
           child: Text(
             titleOfIndex,
             style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'RocknRoll One'),
           ),
         ),
       ],

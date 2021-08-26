@@ -20,13 +20,15 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
         child: Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.white70,
+        backgroundColor: Colors.grey.shade200,
         title: Text(
-          "登録",
+          "登録!",
           style: TextStyle(
-            color: Colors.red,
+            color: Colors.red.shade900,
             fontSize: 30,
             fontWeight: FontWeight.bold,
+            fontFamily: "RocknRoll One",
+            shadows: [Shadow(color: Colors.black, offset: Offset(2, 2))],
           ),
         ),
       ),
@@ -49,7 +51,7 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
               ),
               SizedBox(
                 width: size.width,
-                height: 400,
+                height: 350,
                 child: Image.file(
                   File(widget.imagePathFromCamera),
                 ),
@@ -88,8 +90,8 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
               ),
               FlatButton(
                 child: SizedBox(
-                  height: 150,
-                  width: 150,
+                  height: 180,
+                  width: 180,
                   child: Image(
                     image: AssetImage('designImages/register_button.png'),
                   ),

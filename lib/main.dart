@@ -9,6 +9,7 @@ import 'package:hacku2021_vol1/widgets/horizontal_list_view.dart';
 import 'screens/register_book_screen.dart';
 import 'widgets/yellow_dot_index_bar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'data/kana_and_alpha_data.dart';
 
 void main() {
@@ -56,14 +57,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
-          backgroundColor: Colors.white70,
+          backgroundColor: Colors.grey.shade200,
           title: Text(
             widget.title,
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
-              color: Colors.red,
+              color: Colors.red.shade900,
+              fontFamily: "RocknRoll One",
+              shadows: [Shadow(color: Colors.black, offset: Offset(2, 2))],
             ),
           ),
           actions: [
@@ -99,7 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    backgroundColor: Colors.white70,
+                    backgroundColor: Colors.grey.shade200,
+                    fontFamily: "RocknRoll One",
                   ),
                 ),
                 TextField(
@@ -114,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onEditingComplete: () {
                     print(_searchController.text);
+                    FocusScope.of(context).unfocus();
                   },
                 ),
                 Flexible(
@@ -144,16 +150,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: kanaAndAlphaList.length,
                   ),
                 ),
-                // GridView.count(
-                //   crossAxisCount: 2,
-                //   crossAxisSpacing: 10,
-                //   mainAxisSpacing: 10,
-                //   scrollDirection: Axis.vertical,
-                //   children: List<Widget>.generate(
-                //     titles.length,
-                //     generator,
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -161,57 +157,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-  // Widget generator(int index) {
-  //   return GestureDetector(
-  //     child: GridTile(
-  //       child: Container(
-  //         decoration: BoxDecoration(
-  //           color: Colors.white,
-  //           borderRadius: BorderRadius.circular(10),
-  //           border: Border.all(
-  //             color: Colors.black,
-  //             width: 1,
-  //           ),
-  //         ),
-  //         child: Center(
-  //           child: Column(
-  //             children: [
-  //               Text(
-  //                 titles[index],
-  //                 textAlign: TextAlign.center,
-  //                 style: TextStyle(
-  //                   fontSize: 18,
-  //                   fontWeight: FontWeight.bold,
-  //                 ),
-  //               ),
-  //               SizedBox(
-  //                 height: 140,
-  //                 width: 140,
-  //                 child: Image(
-  //                   image: AssetImage('images/' + imagesPath[index]),
-  //                 ),
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //     onTap: () {
-  //       print(titles[index] + 'を選択');
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => BookDetailsScreen(
-  //             bookTitle: titles[index],
-  //             imagePath: 'images/' + this.imagesPath[index],
-  //             author: authors[index],
-  //             latestIssue: '16',
-  //             bookPrice: '500',
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }

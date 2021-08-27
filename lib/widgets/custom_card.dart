@@ -25,6 +25,7 @@ class CustomCard extends StatelessWidget {
                 child: Text(
                   this.bookTitle,
                   style: TextStyle(
+                    fontFamily: "RocknRoll One",
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),

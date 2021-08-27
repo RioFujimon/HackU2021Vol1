@@ -11,6 +11,7 @@ import 'widgets/yellow_dot_index_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'data/kana_and_alpha_data.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> authors = DummyAuthorData().getAuthorsData();
   List<String> kanaAndAlphaList = KadaAndAlphaListData().getKanaAndAlphaData();
 
+  String qrCode = '';
+
   final TextEditingController _searchController = new TextEditingController();
 
   Future<String> getImageFromCamera() async {
@@ -74,15 +77,16 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             IconButton(
               color: Colors.blue,
-              onPressed: () async {
-                print('漫画の追加');
-                var imagePathFromCamera = await getImageFromCamera();
-                print("imagePathFromCamera：" + imagePathFromCamera);
-                await Navigator.push(
+              //＋ボタンが押された時の処理
+              onPressed: ()  async {
+                await scanQrCode();
+                print(qrCode);
+                await
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => RegisterBookScreen(
-                      imagePathFromCamera: imagePathFromCamera,
+                      isbnCode: qrCode,
                     ),
                   ),
                 );
@@ -105,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     backgroundColor: Colors.grey.shade200,
-                    fontFamily: "RocknRoll One",
+                    fontFamily: qrCode,
                   ),
                 ),
                 TextField(
@@ -157,5 +161,20 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+  Future scanQrCode() async {
+
+    final qrCode = await FlutterBarcodeScanner.scanBarcode(
+      '#EB394B',
+      'Cancel',
+      true,
+      ScanMode.QR,
+    );
+
+    if (!mounted) return;
+    setState(() {
+      this.qrCode = qrCode;
+    });
+
   }
 }

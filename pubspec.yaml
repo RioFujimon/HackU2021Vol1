@@ -31,6 +31,12 @@ dependencies:
   image_picker: ^0.8.3+2
   google_fonts: ^2.1.0
   flutter_native_splash: ^1.2.1
+  # バーコードスキャン用
+  flutter_barcode_scanner: ^2.0.0
+
+  # http接続用
+  http: ^0.13.3
+
 
 flutter_native_splash:
   image: "images/xlargeLogo.png"

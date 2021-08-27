@@ -19,7 +19,6 @@ Future<Album> fetchAlbum(String isbnCode) async {
 
 class Album {
 
-  final int pageCount;
   final String title;
   final String titleKana;
   final String imageUrl;
@@ -27,7 +26,6 @@ class Album {
 
   Album({
 
-    required this.pageCount,
     required this.title,
     required this.titleKana,
     required this.imageUrl,
@@ -36,7 +34,7 @@ class Album {
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
-      pageCount: json['pageCount'],
+
       title: json['Items'][0]['Item']['title'],
       titleKana: json['Items'][0]['Item']['titleKana'],
       imageUrl: json['Items'][0]['Item']['largeImageUrl'],
@@ -58,6 +56,8 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
   late Future<Album> futureAlbum;
   String bookTitle = "";
   String imageUrl = "";
+  String titleKana = "";
+  String author = "";
 
   @override
   void initState() {
@@ -99,6 +99,8 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
                       if (snapshot.hasData) {
                         //bookTitle =
                         trimTitle(snapshot.data!.title);
+                        setAuthor(snapshot.data!.author);
+                        setKana(snapshot.data!.titleKana);
 
                         print(bookTitle);
 
@@ -176,6 +178,10 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
                 ),
                 onPressed: () {
                   print('登録');
+                  Navigator.pop(
+                      context
+                  );
+                  //saveComicData();
                 },
               ),
             ],
@@ -185,7 +191,19 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
     ));
   }
   void trimTitle(String title){
-    String resultSplit = "";
     bookTitle = title.split("（")[0];
   }
+
+  void setAuthor(String setAuthor){
+    author = setAuthor;
+    print(author);
+  }
+
+  void setKana(String kana){
+    titleKana = kana;
+  }
+
+  // String getVol1Image(String bookTitle) {
+  //
+  // }
 }

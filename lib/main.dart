@@ -79,10 +79,9 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.blue,
               //＋ボタンが押された時の処理
               onPressed: ()  async {
-                print('漫画の追加');
                 await scanQrCode();
                 print(qrCode);
-                await 
+                await
                 Navigator.push(
                   context,
                   MaterialPageRoute(

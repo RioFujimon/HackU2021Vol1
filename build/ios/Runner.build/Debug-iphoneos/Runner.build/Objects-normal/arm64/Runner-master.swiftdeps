@@ -1,0 +1,5 @@
+version: "Apple Swift version 5.4.2 (swiftlang-1205.0.28.2 clang-1205.0.19.57)"
+options: "7d3ee6dde9e34a24b8cb3d8e6721303c"
+build_time: [1630043906, 817617000]
+inputs:
+  "/Users/itoushouta/AndroidStudioProjects/HackU2021Vol1/ios/Runner/AppDelegate.swift": [1630039033, 867546735]

@@ -82,11 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 print('漫画の追加');
                 await scanQrCode();
                 print(qrCode);
+                await 
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => RegisterBookScreen(
-                      imagePathFromCamera: "OnePiece_blur.jpg",
+                      isbnCode: qrCode,
                     ),
                   ),
                 );

@@ -34,6 +34,10 @@ dependencies:
   # バーコードスキャン用
   flutter_barcode_scanner: ^2.0.0
 
+  # http接続用
+  http: ^0.13.3
+
+
 flutter_native_splash:
   image: "images/xlargeLogo.png"
   color: "0081C3"

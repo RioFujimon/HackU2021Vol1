@@ -41,4 +41,9 @@ class DummyTwoDimAuthorData {
   List<List<String>> getTwoDimAuthorList() {
     return this._dimenList;
   }
+
+  void setTwoDimAuthorList(int index, String data){
+    this._dimenList[index].add(data);
+  }
+
 }

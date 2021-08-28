@@ -2,7 +2,7 @@ class DummyTwoDimTitleData {
   final List<List<String>> _dimenList = [
     [], //あ行
     ["鬼滅の刃", "五等分の花嫁"], //か行
-    ["呪術回戦"], //さ行
+    ["呪術廻戦"], //さ行
     ["東京リベンジャーズ", "ドラゴンボール"], //た行
     ["ナルト"], //な行
     ["鋼の錬金術師", "ハンターハンター", "BLEACH"], // は行
@@ -41,4 +41,8 @@ class DummyTwoDimTitleData {
   List<List<String>> getTwoDimTitleList() {
     return this._dimenList;
   }
+  void setTwoDimTitleList(int index, String data){
+    this._dimenList[index].add(data);
+  }
+
 }

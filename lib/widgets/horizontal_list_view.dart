@@ -8,12 +8,15 @@ class HorizontalListView extends StatefulWidget {
   List<List<String>> twoDimImageList;
   List<List<String>> twoDimTitleList;
   List<List<String>> twoDimAuthorList;
-
+  List<List<String>> twoDimVolList;
   HorizontalListView(
-      {required this.index,
-      required this.twoDimImageList,
-      required this.twoDimTitleList,
-      required this.twoDimAuthorList});
+      {
+        required this.index,
+        required this.twoDimImageList,
+        required this.twoDimTitleList,
+        required this.twoDimAuthorList,
+        required this.twoDimVolList
+      });
 
   @override
   _HorizontalListViewState createState() => _HorizontalListViewState();
@@ -25,6 +28,7 @@ class _HorizontalListViewState extends State<HorizontalListView> {
     List<List<String>> twoDimTitleList,
     List<List<String>> twoDimAuthorList,
     List<List<String>> twoDimImageList,
+    List<List<String>> twoDimVolList,
   ) {
     List<CustomCard> customCardList = [];
     for (int i = 0; i < twoDimImageList[index].length; i++) {
@@ -33,6 +37,7 @@ class _HorizontalListViewState extends State<HorizontalListView> {
           bookTitle: twoDimTitleList[index][i],
           author: twoDimAuthorList[index][i],
           imagePath: twoDimImageList[index][i],
+          vol:twoDimVolList[index][i]
         ),
       );
     }
@@ -48,6 +53,7 @@ class _HorizontalListViewState extends State<HorizontalListView> {
         widget.twoDimTitleList,
         widget.twoDimAuthorList,
         widget.twoDimImageList,
+        widget.twoDimVolList
       ),
     );
   }

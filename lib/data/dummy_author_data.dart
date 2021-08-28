@@ -15,4 +15,9 @@ class DummyAuthorData {
   List<String> getAuthorsData() {
     return this._authors;
   }
+
+  void setData(String data){
+    _authors.add(data);
+  }
+
 }

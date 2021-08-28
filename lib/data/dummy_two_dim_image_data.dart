@@ -45,4 +45,7 @@ class DummyTwoDimImageData {
   List<List<String>> getTwoDimImageList() {
     return this._dimenList;
   }
+  void setTwoDimImageList(int index, String data){
+    this._dimenList[index].add(data);
+  }
 }

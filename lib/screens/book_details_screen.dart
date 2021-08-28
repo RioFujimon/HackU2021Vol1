@@ -1,10 +1,49 @@
+import 'dart:convert';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'dart:io';
-
 import 'package:hacku2021_vol1/widgets/yellow_dot_index_middle_bar.dart';
 import 'package:hacku2021_vol1/widgets/yellow_dot_index_small_bar.dart';
+import 'package:http/http.dart' as http;
+
+Future<Album> fetchAlbum(String bookTitle) async {
+  final response = await http
+      .get(Uri.parse('https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&title='+bookTitle+'（）&applicationId=1033173092930546274'));
+
+  if (response.statusCode == 200) {
+    return Album.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load album');
+  }
+}
+
+class Album {
+
+  final int prise;
+  final String title;
+  // final String imageUrl;
+  // final String author;
+
+  Album({
+
+    required this.prise,
+    required this.title,
+    // required this.imageUrl,
+    // required this.author
+  });
+
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+
+        prise: json['Items'][0]['Item']["itemPrice"],
+        title: json['Items'][0]['Item']['title'],
+        // imageUrl: json['Items'][0]['Item']['largeImageUrl'],
+        // author: json['Items'][0]['Item']['author']
+    );
+  }
+}
+
+
 
 class BookDetailsScreen extends StatefulWidget {
   String bookTitle;
@@ -26,11 +65,24 @@ class BookDetailsScreen extends StatefulWidget {
 
 class _BookDetailsScreenState extends State<BookDetailsScreen> {
   String dropdownValue = '1';
+  List<String> _dorpdownmenue = ["1"];
+  late Future<Album> futureAlbum;
+  int comicPrice = 0;
+  String totalPrice = '巻を指定してください';
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum  = fetchAlbum("鬼滅の刃");
+    for(int i = 2; i < (int.parse(widget.latestIssue) + 1); i++ ){
+      _dorpdownmenue.add(i.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    String totalPrice = '7500';
+
     final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
     return SafeArea(
       child: Scaffold(
@@ -133,7 +185,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                                     print(dropdownValue);
                                   });
                                 },
-                                items: ['1', '2', '3', '4'].map((value) {
+                                items: _dorpdownmenue.map((value) {
                                   return DropdownMenuItem(
                                     value: value,
                                     child: Text(value),
@@ -195,6 +247,19 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                                       ),
                                       onChanged: (value) {
                                         print(value);
+                                        int num = int.parse(value) - int.parse(dropdownValue);
+                                        if(int.parse(value) <= int.parse(widget.latestIssue)) {
+                                          totalPrice = (int.parse(widget.bookPrice) *
+                                                  num).toString();
+                                          if (int.parse(totalPrice) < 0) {
+                                            totalPrice = "すでに持っています";
+                                          }else{
+                                            totalPrice = "￥"+(int.parse(widget.bookPrice) *
+                                                num).toString();
+                                          }
+                                        }else{
+                                          totalPrice = "発売していません";
+                                        }
                                       },
                                     ),
                                   ),
@@ -214,7 +279,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       ),
                     ),
                     Text(
-                      '￥' + totalPrice,
+                      totalPrice,
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,

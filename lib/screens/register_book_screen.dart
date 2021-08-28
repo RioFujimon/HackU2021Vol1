@@ -2,6 +2,15 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:hacku2021_vol1/main.dart';
+import 'package:hacku2021_vol1/data/dummy_author_data.dart';
+import 'package:hacku2021_vol1/data/dummy_image_path_data.dart';
+import 'package:hacku2021_vol1/data/dummy_title_data.dart';
+import 'package:hacku2021_vol1/data/dummy_two_dim_author_data.dart';
+import 'package:hacku2021_vol1/data/dummy_two_dim_image_data.dart';
+import 'package:hacku2021_vol1/data/dummy_two_dim_title_data.dart';
+import 'package:hacku2021_vol1/data/dummy_two_dim_vol_data.dart';
+
 import 'package:hacku2021_vol1/widgets/yellow_dot_index_middle_bar.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,7 +34,6 @@ class Album {
   final String author;
 
   Album({
-
     required this.title,
     required this.titleKana,
     required this.imageUrl,
@@ -34,7 +42,6 @@ class Album {
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
-
       title: json['Items'][0]['Item']['title'],
       titleKana: json['Items'][0]['Item']['titleKana'],
       imageUrl: json['Items'][0]['Item']['largeImageUrl'],
@@ -45,9 +52,14 @@ class Album {
 
 
 class RegisterBookScreen extends StatefulWidget {
-  String isbnCode;
+   String isbnCode;
+  //late Future<Album> futureAlbum;
+  // String bookTitle;
+  // String imageUrl ;
+  // String titleKana ;
+  // String author ;
+  //RegisterBookScreen({ required this.bookTitle, required this.imageUrl, required this.titleKana, required this.author });
   RegisterBookScreen({required this.isbnCode});
-
   @override
   _RegisterBookScreenState createState() => _RegisterBookScreenState();
 }
@@ -55,10 +67,9 @@ class RegisterBookScreen extends StatefulWidget {
 class _RegisterBookScreenState extends State<RegisterBookScreen> {
   late Future<Album> futureAlbum;
   String bookTitle = "";
-  String imageUrl = "";
-  String titleKana = "";
-  String author = "";
-
+  String imageUrl = "https://raw.githubusercontent.com/Codelessly/FlutterLoadingGIFs/master/packages/cupertino_activity_indicator.gif" ;
+  String titleKana = "" ;
+  String author = "" ;
   @override
   void initState() {
     super.initState();
@@ -129,13 +140,16 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                SizedBox(
-                  width: size.width,
-                  height: 350,
-                  child: Image.network(
-                    imageUrl
+                  SizedBox(
+                    width: size.width,
+                    height: 350,
+                    child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.fill
+                    ),
+
                   ),
-                ),
+
                 YellowDotIndexMiddleBar(
                   titleOfIndex: '購入済みの最新刊',
                   height: 50,
@@ -176,8 +190,12 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
                     image: AssetImage('designImages/register_button.png'),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async{
                   print('登録');
+                  await setData();
+                  DummyTitleData dummy = DummyTitleData();
+                  print(dummy.getDummyTitles()[(dummy.getDummyTitles().length - 1)]);
+                  print("before add "+ dummy.getDummyTitles().length.toString());
                   Navigator.pop(
                       context
                   );
@@ -201,6 +219,16 @@ class _RegisterBookScreenState extends State<RegisterBookScreen> {
 
   void setKana(String kana){
     titleKana = kana;
+  }
+
+  Future<void> setData() async {
+    DummyAuthorData().setData(author);
+    DummyImagePathData().setData(imageUrl);
+    DummyTitleData().setTitles(bookTitle);
+    DummyTwoDimTitleData().setTwoDimTitleList(0, bookTitle);
+    DummyTwoDimAuthorData().setTwoDimAuthorList(0, author);
+    DummyTwoDimImageData().setTwoDimImageList(0, imageUrl);
+    DummyTwoDimVolData().setTwoDimVolList(0, "21");
   }
 
   // String getVol1Image(String bookTitle) {

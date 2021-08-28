@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hacku2021_vol1/data/dummy_author_data.dart';
 import 'package:hacku2021_vol1/data/dummy_image_path_data.dart';
@@ -5,6 +7,7 @@ import 'package:hacku2021_vol1/data/dummy_title_data.dart';
 import 'package:hacku2021_vol1/data/dummy_two_dim_author_data.dart';
 import 'package:hacku2021_vol1/data/dummy_two_dim_image_data.dart';
 import 'package:hacku2021_vol1/data/dummy_two_dim_title_data.dart';
+import 'package:hacku2021_vol1/data/dummy_two_dim_vol_data.dart';
 import 'package:hacku2021_vol1/widgets/horizontal_list_view.dart';
 import 'screens/register_book_screen.dart';
 import 'widgets/yellow_dot_index_bar.dart';
@@ -47,6 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> authors = DummyAuthorData().getAuthorsData();
   List<String> kanaAndAlphaList = KadaAndAlphaListData().getKanaAndAlphaData();
 
+  late Future<Album> futureAlbum;
+  String bookTitle = "";
+  String imageUrl = "";
+  String titleKana = "";
+  String author = "";
   String qrCode = '';
 
   final TextEditingController _searchController = new TextEditingController();
@@ -81,12 +89,16 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: ()  async {
                 await scanQrCode();
                 print(qrCode);
-                await
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => RegisterBookScreen(
                       isbnCode: qrCode,
+                      // bookTitle: bookTitle,
+                      // imageUrl: imageUrl,
+                      // titleKana: titleKana,
+                      // author: author,
                     ),
                   ),
                 );
@@ -109,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     backgroundColor: Colors.grey.shade200,
-                    fontFamily: qrCode,
+                    fontFamily: "RocknRoll One",
                   ),
                 ),
                 TextField(
@@ -125,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onEditingComplete: () {
                     print(_searchController.text);
                     FocusScope.of(context).unfocus();
+                    print(DummyTitleData().getDummyTitles());
                   },
                 ),
                 Flexible(
@@ -146,6 +159,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     .getTwoDimAuthorList(),
                                 twoDimImageList:
                                     DummyTwoDimImageData().getTwoDimImageList(),
+                                twoDimVolList:
+                                    DummyTwoDimVolData().getTwoDimVolList(),
                               ),
                             ),
                           ],
@@ -163,7 +178,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
   Future scanQrCode() async {
-
     final qrCode = await FlutterBarcodeScanner.scanBarcode(
       '#EB394B',
       'Cancel',
@@ -171,10 +185,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ScanMode.QR,
     );
 
+   // await (futureAlbum = fetchAlbum(qrCode));
+
     if (!mounted) return;
     setState(() {
       this.qrCode = qrCode;
     });
-
   }
 }

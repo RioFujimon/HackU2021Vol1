@@ -15,4 +15,7 @@ class DummyImagePathData {
   List<String> getImagesPath() {
     return this._imagesPath;
   }
+  void setData(String data){
+    _imagesPath.add(data);
+  }
 }

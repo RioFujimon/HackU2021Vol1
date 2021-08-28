@@ -41,4 +41,6 @@ class KadaAndAlphaListData {
   List<String> getKanaAndAlphaData() {
     return this._kanaAndAlphaList;
   }
+
+
 }

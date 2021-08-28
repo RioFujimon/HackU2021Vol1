@@ -7,8 +7,9 @@ class CustomCard extends StatelessWidget {
   String bookTitle;
   String author;
   String imagePath;
+  String vol;
   CustomCard(
-      {required this.bookTitle, required this.author, required this.imagePath});
+      {required this.bookTitle, required this.author, required this.imagePath,required this.vol});
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +50,8 @@ class CustomCard extends StatelessWidget {
                 bookTitle: bookTitle,
                 imagePath: 'images/' + imagePath,
                 author: author,
-                latestIssue: '16',
-                bookPrice: '500',
+                latestIssue: vol,
+                bookPrice: '484',
               ),
             ),
           );
